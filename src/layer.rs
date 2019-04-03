@@ -1,5 +1,17 @@
 use noise::{Fbm, NoiseFn};
 
+#[derive(Debug, PartialEq, Eq, Hash)]
+pub enum LayerType {
+    Height,
+    Water
+}
+
+impl LayerType {
+    pub fn all() -> Vec<LayerType> {
+        vec![LayerType::Height, LayerType::Water]
+    }
+}
+
 pub struct Layer {
     generator: Fbm
 }
@@ -24,6 +36,6 @@ impl Layer {
 
 impl LayerAccess for Layer {
     fn value_at(&self, x: f64, y: f64) -> f64 {
-        self.generator.get([x, y])
+        (self.generator.get([x, y]) + 1) / 2
     }
 }

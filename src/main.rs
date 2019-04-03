@@ -5,6 +5,7 @@ use noise::utils::{PlaneMapBuilder, NoiseMapBuilder};
 
 mod layer;
 mod render;
+mod manager;
 
 fn main() {
     let fbm = Fbm::new();
