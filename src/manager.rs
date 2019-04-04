@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 
 pub struct LayerManager {
-    generators: HashMap<LayerType, Layer>
+    pub generators: HashMap<LayerType, Layer>
 }
 
 impl LayerManager {

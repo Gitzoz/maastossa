@@ -6,15 +6,12 @@ use noise::utils::{PlaneMapBuilder, NoiseMapBuilder};
 mod layer;
 mod render;
 mod manager;
+mod terrain;
 
 fn main() {
-    let fbm = Fbm::new();
 
-    let seeded_fbm = fbm.set_seed(123);
+    let terrain = terrain::Terrain::new(10, 10);
 
-    let base_layer = layer::Layer::new();
-
-    let renderer = render::Renderer::new(10, 10, base_layer);
-    renderer.render()
+    terrain.render()
 
 }

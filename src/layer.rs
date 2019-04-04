@@ -1,6 +1,7 @@
-use noise::{Fbm, NoiseFn};
+use noise::{Fbm, NoiseFn, Seedable};
+use rand::{thread_rng, Rng};
 
-#[derive(Debug, PartialEq, Eq, Hash)]
+#[derive(Debug, PartialEq, Eq, Hash, Copy, Clone)]
 pub enum LayerType {
     Height,
     Water
@@ -13,7 +14,8 @@ impl LayerType {
 }
 
 pub struct Layer {
-    generator: Fbm
+    generator: Fbm,
+    seed: u32
 }
 
 pub trait LayerAccess {
@@ -22,20 +24,17 @@ pub trait LayerAccess {
 
 impl Layer {
     pub fn new() -> Self {
+        let seed = thread_rng().gen::<u32>();
+        let generator = Fbm::new().set_seed(seed);
         Layer{
-            generator: Fbm::new()
-        }
-    }
-
-    pub fn new_with_generator(generator: Fbm) -> Self {
-        Layer{
-            generator
+            generator,
+            seed
         }
     }
 }
 
 impl LayerAccess for Layer {
     fn value_at(&self, x: f64, y: f64) -> f64 {
-        (self.generator.get([x, y]) + 1) / 2
+        (self.generator.get([x, y]) + 1.0) / 2.0
     }
 }
