@@ -1,21 +1,22 @@
-use noise::{Fbm, NoiseFn, Seedable};
-use rand::{thread_rng, Rng};
+use noise::{NoiseFn, Perlin, Seedable};
+use rand::{Rng, thread_rng};
 
 #[derive(Debug, PartialEq, Eq, Hash, Copy, Clone)]
 pub enum LayerType {
     Height,
-    Water
+    Water,
+    Forest,
 }
 
 impl LayerType {
     pub fn all() -> Vec<LayerType> {
-        vec![LayerType::Height, LayerType::Water]
+        vec![LayerType::Height, LayerType::Water, LayerType::Forest]
     }
 }
 
 pub struct Layer {
-    generator: Fbm,
-    seed: u32
+    generator: Perlin,
+    seed: u32,
 }
 
 pub trait LayerAccess {
@@ -25,10 +26,10 @@ pub trait LayerAccess {
 impl Layer {
     pub fn new() -> Self {
         let seed = thread_rng().gen::<u32>();
-        let generator = Fbm::new().set_seed(seed);
-        Layer{
+        let generator = Perlin::new().set_seed(seed);
+        Layer {
             generator,
-            seed
+            seed,
         }
     }
 }

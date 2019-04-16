@@ -1,6 +1,6 @@
-use crate::layer::{Layer, LayerType};
 use std::collections::HashMap;
 
+use crate::layer::{Layer, LayerType};
 
 pub struct LayerManager {
     pub generators: HashMap<LayerType, Layer>
@@ -11,11 +11,10 @@ impl LayerManager {
         let generators: HashMap<LayerType, Layer> = LayerType::all()
             .into_iter()
             .map(|layer_type| (layer_type, Layer::new()))
-            .rev()
             .collect();
 
 
-        LayerManager{
+        LayerManager {
             generators,
         }
     }

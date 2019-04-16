@@ -1,20 +1,34 @@
-use crate::manager::LayerManager;
 use std::collections::HashMap;
-use crate::layer::{LayerType, Layer, LayerAccess};
 use std::fmt;
+
+use crate::layer::{Layer, LayerAccess, LayerType};
+use crate::manager::LayerManager;
 
 pub struct Terrain {
     pub width: usize,
     pub height: usize,
     layer_manager: LayerManager,
-    pub composition: Vec<Vec<Nature>>
+    pub composition: Vec<Vec<Nature>>,
+}
+
+#[derive(Debug)]
+pub enum NatureType {
+    LAND,
+    WATER,
+    FOREST,
 }
 
 #[derive(Debug)]
 pub struct Nature {
     x: usize,
     y: usize,
-    possibilities: HashMap<LayerType, f64>
+    structure: HashMap<LayerType, f64>,
+}
+
+impl Nature {
+    pub fn get_type(&self) -> NatureType {
+        NatureType::WATER
+    }
 }
 
 impl Terrain {
@@ -25,7 +39,7 @@ impl Terrain {
             width,
             height,
             layer_manager,
-            composition
+            composition,
         }
     }
 
@@ -35,16 +49,19 @@ impl Terrain {
         }
 
         let mut field = Vec::with_capacity(width);
+
         for x in 0..width {
             let mut y_fields = Vec::with_capacity(height);
             for y in 0..height {
-                let possibilities: HashMap<LayerType, f64> = layer_manager.generators
+                let structure: HashMap<LayerType, f64> = layer_manager.generators
                     .iter()
-                    .map(|(layer_type, layer)| map_to_possibility(x ,y,layer_type,layer))
+                    .map(|(layer_type, layer)| map_to_possibility(x, y, layer_type, layer))
                     .collect();
 
-                y_fields.push( Nature {
-                    x, y, possibilities
+                y_fields.push(Nature {
+                    x,
+                    y,
+                    structure,
                 })
             }
             field.push(y_fields);
