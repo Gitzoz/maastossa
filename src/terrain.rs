@@ -32,7 +32,7 @@ impl Nature {
 
         if height <= &0.3 && water >= &0.5 {
             NatureType::WATER
-        } else if height > &0.3 && height <= &0.6 && forest >= &0.6 {
+        } else if height > &0.3 && height <= &0.6 && forest >= &0.5 {
             NatureType::FOREST
         } else {
             NatureType::LAND
