@@ -1,11 +1,9 @@
 use glutin_window::{GlutinWindow, OpenGL};
-use noise::utils::{NoiseMapBuilder, PlaneMapBuilder};
 use opengl_graphics::GlGraphics;
 use piston::event_loop::*;
 use piston::input::*;
 use piston::window::WindowSettings;
 
-use crate::layer::{Layer, LayerAccess};
 use crate::render::{Render, Renderer};
 
 mod layer;
@@ -14,12 +12,12 @@ mod manager;
 mod terrain;
 
 fn main() {
-    let terrain = terrain::Terrain::new(500, 500);
+    let terrain = terrain::Terrain::new(50, 50);
 
     let opengl = OpenGL::V3_2;
     let mut window: GlutinWindow = WindowSettings::new(
         "Terrain",
-        [terrain.width as u32, terrain.height as u32],
+        [terrain.width as u32 * 10, terrain.height as u32 * 10],
     )
         .opengl(opengl)
         .exit_on_esc(true)

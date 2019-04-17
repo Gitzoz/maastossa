@@ -6,7 +6,6 @@ extern crate piston;
 use opengl_graphics::GlGraphics;
 use piston::input::*;
 
-use crate::layer::{Layer, LayerAccess};
 use crate::terrain::{NatureType, Terrain};
 
 pub struct Renderer {
@@ -33,10 +32,10 @@ impl Render for Renderer {
         use graphics::*;
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
         const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
-        const BROWN: [f32; 4] = [0.38, 0.51, 0.25, 1.0];
+        const BROWN: [f32; 4] = [0.40, 0.21, 0.05, 1.0];
         const BLUE: [f32; 4] = [0.0, 0.0, 1.0, 1.0];
 
-        let square = rectangle::square(0.0, 0.0, 1.0);
+        let square = rectangle::square(0.0, 0.0, 10.0);
 
         let nature: Vec<Vec<NatureType>> = self.terrain
             .composition
@@ -51,7 +50,7 @@ impl Render for Renderer {
             clear(RED, gl);
             for (x, y_nature) in nature.iter().enumerate() {
                 for (y, nature) in y_nature.iter().enumerate() {
-                    let transform = c.transform.trans(x as f64, y as f64);
+                    let transform = c.transform.trans(x as f64 * 10.0, y as f64 * 10.0);
 
                     match nature {
                         NatureType::WATER => rectangle(BLUE, square, transform, gl),

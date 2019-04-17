@@ -1,4 +1,4 @@
-use noise::{NoiseFn, Perlin, Seedable};
+use noise::{NoiseFn, SuperSimplex, Seedable};
 use rand::{Rng, thread_rng};
 
 #[derive(Debug, PartialEq, Eq, Hash, Copy, Clone)]
@@ -15,7 +15,7 @@ impl LayerType {
 }
 
 pub struct Layer {
-    generator: Perlin,
+    generator: SuperSimplex,
     seed: u32,
 }
 
@@ -26,7 +26,7 @@ pub trait LayerAccess {
 impl Layer {
     pub fn new() -> Self {
         let seed = thread_rng().gen::<u32>();
-        let generator = Perlin::new().set_seed(seed);
+        let generator = SuperSimplex::new().set_seed(seed);
         Layer {
             generator,
             seed,

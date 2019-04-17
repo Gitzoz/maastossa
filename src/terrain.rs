@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::fmt;
 
 use crate::layer::{Layer, LayerAccess, LayerType};
 use crate::manager::LayerManager;
@@ -27,7 +26,17 @@ pub struct Nature {
 
 impl Nature {
     pub fn get_type(&self) -> NatureType {
-        NatureType::WATER
+        let height = self.structure.get(&LayerType::Height).unwrap();
+        let water = self.structure.get(&LayerType::Water).unwrap();
+        let forest = self.structure.get(&LayerType::Forest).unwrap();
+
+        if height <= &0.3 && water >= &0.5 {
+            NatureType::WATER
+        } else if height > &0.3 && height <= &0.6 && forest >= &0.6 {
+            NatureType::FOREST
+        } else {
+            NatureType::LAND
+        }
     }
 }
 
